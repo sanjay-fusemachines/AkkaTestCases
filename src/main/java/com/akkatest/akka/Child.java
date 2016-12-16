@@ -1,4 +1,4 @@
-package com.fusemachines;
+package com.akkatest.akka;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -12,9 +12,13 @@ public class Child extends UntypedActor{
 	@Override
 	public void onReceive(Object message) throws Throwable {
 		
-		System.out.println("Inside child");
-		getSender().tell(message + " from child.", getSelf());
-		
+		//Termination of program if message is test from child
+		if(message.equals("Test from child.")){
+			System.out.println(message);
+			System.out.println("Program terminated");
+		} else{
+			getSender().tell(message + " from child.", getSelf());
+		}
 	}
 
 }

@@ -9,9 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.fusemachines.Application;
-import com.fusemachines.ContextContainer;
-import com.fusemachines.HelloWorld;
+import com.akkatest.Application;
+import com.akkatest.ContextContainer;
+import com.akkatest.akka.HelloWorld;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -37,18 +37,16 @@ public class HelloWorldTest{
 		ContextContainer.setContext(context);
 		new JavaTestKit(system){
 			{
-				System.out.println("Testing");
 				final Props props = Props.create(HelloWorld.class);
 				final ActorRef testRef = system.actorOf(props);
-				final JavaTestKit probe = new JavaTestKit(system);
 				
-				System.out.println("After declarations");
+				testRef.tell("Create child", getRef());
 				
-				testRef.tell(probe.getRef(), getRef());
+				expectMsgEquals(duration("3 seconds"), "Test from child.");
 				
-				System.out.println("After Tell");
+				testRef.tell("Test", getRef());
 				
-				expectMsgEquals(duration("20 seconds"), "Test from child.");
+				expectMsgEquals(duration("3 seconds"), "Test");
 			}
 			
 		};

@@ -1,4 +1,4 @@
-package com.fusemachines;
+package com.akkatest.config;
 
 
 import org.springframework.context.ApplicationContext;
@@ -10,7 +10,7 @@ import akka.actor.ActorSystem;
 
 public class ActorConfig {	
 	
-	static ActorSystem system = ActorSystem.create("Hello");
+	
 	
 	private ApplicationContext applicationContext;
 	private SpringExtension springExtension;
@@ -36,24 +36,18 @@ public class ActorConfig {
 		
 		this.setApplicationContext(applicationContext);
 		
-		SpringExtension x = applicationContext.getBean(SpringExtension.class);
+		SpringExtension x = this.getApplicationContext().getBean(SpringExtension.class);
 		
 		this.setSpringExtension(x);
 		
 		this.getSpringExtension().initialize(this.getApplicationContext());
-		
-		//ActorRef actorRef = system.actorOf(x.props("HelloWorld"),"helloWorldActor");
-		
-		//actorRef.tell("Hello World", null);
+	
 	}
 	
 	public String startActorConfig(){
 		return "Actor Config Started";
 	}
 	
-	public ActorRef getChildActor(){
-		ActorRef childActor = system.actorOf(this.getSpringExtension().props("Child"), "childActor");
-		return childActor;
-	}
+	
 	
 }

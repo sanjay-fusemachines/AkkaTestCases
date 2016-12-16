@@ -1,4 +1,4 @@
-package com.fusemachines;
+package com.akkatest.config;
 
 import akka.actor.Extension;
 import akka.actor.Props;
